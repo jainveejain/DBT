@@ -1,0 +1,184 @@
+
+
+TRIGGERS----
+
+## Select Query cant be used in triggers.
+
+delimiter //
+create  trigger pro_update before update on productItems 
+for each row
+begin
+select old.pid,old.pname,old.price,old.cat_id from productItems;
+end//
+delimiter ;
+
+## whenever update in productItem table then store the old data in productItem old table
+ 
+create table old_productItem(pid int,pname varchar(20),price double(9,2),cat_id int,quantity int,manufact date);
+
+delimiter //
+create trigger pro_update before update on
+productItems
+for each row
+begin
+ßß
+end//
+delimiter ;
+
+select * from old_productItem;
+
+--TEST---- update productItems set price = 2000 where pid = 10;
+Query OK, 1 row affected (0.01 sec)
+mysql> select * from old_productItem;
++------+---------------+---------+--------+----------+------------+
+| pid  | pname         | price   | cat_id | quantity | manufact   |
++------+---------------+---------+--------+----------+------------+
+|   10 | MacFoundation | 1700.00 |      4 |       90 | 2023-09-19 |
++------+---------------+---------+--------+----------+------------+
+
+
+mysql> select * from productItems;
++-----+---------------+----------+--------+----------+------------+
+| pid | pname         | price    | cat_id | quantity | manufact   |
++-----+---------------+----------+--------+----------+------------+
+|   1 | sugar         |    40.00 |      1 |       40 | 2023-05-13 |
+|   2 | Tea           |   200.00 |      1 |       20 | 2023-06-07 |
+|   3 | Pineapple     |    80.00 |      2 |       10 | 2023-10-13 |
+|   4 | Strawberries  |   300.00 |      2 |        5 | 2023-10-12 |
+|   5 | Laptops       | 40000.00 |      3 |       11 | 2022-11-14 |
+|   6 | Mobiles       | 10000.00 |      3 |       15 | 2022-09-15 |
+|   7 | ipad          | 60000.00 |      3 |       20 | 2022-08-17 |
+|   8 | eyeliner      |  1050.00 |      4 |      100 | 2023-07-19 |
+|   9 | RubyBlush     |  1100.00 |      4 |       70 | 2023-08-19 |
+|  10 | MacFoundation |  2000.00 |      4 |       90 | 2023-09-19 |
++-----+---------------+----------+--------+----------+------------+
+
+## Create Audit table of productItems-(audit tables always contains old and new data so both will come)
+
+create table audit_proItem(old_pid int,new_pid int,old_pname varchar(20),new_pname varchar(20),old_price double(9,2),new_price double(9,2),old_cat_id int,new_cat_id int,old_quantity int,new_quantity int,old_manufact date,new_manufact date );
+
+delimiter //
+create trigger pro_insert before insert on productItems 
+for each row
+begin
+insert into audit_proItem values(null,new.pid,null,new.pname,null,new.price,null,new.quantity,null,new.cat_id,null,new.manufact);
+end//
+delimiter ;
+
+	delimiter //
+	create trigger pro_update11 before update on productItems 
+	for each row
+	begin
+	insert into audit_proItem values(old.pid,new.pid,old.pname,new.pname,old.price,new.price,old.quantity,new.quantity,null,new.cat_id,old.manufact,new.manufact);
+	end//
+	delimiter ;
+ ---TEST--- insert into productItems values(11,'MacCompact',1300,4,150,'2023/04/21');
+ mysql> select * from audit_proItem;
++---------+---------+-----------+------------+-----------+-----------+------------+------------+--------------+--------------+--------------+--------------+
+| old_pid | new_pid | old_pname | new_pname  | old_price | new_price | old_cat_id | new_cat_id | old_quantity | new_quantity | old_manufact | new_manufact |
++---------+---------+-----------+------------+-----------+-----------+------------+------------+--------------+--------------+--------------+--------------+
+|    NULL |      11 | NULL      | MacCompact |      NULL |   1300.00 |       NULL |        150 |         NULL |            4 | NULL         | 2023-04-21   |
++---------+---------+-----------+------------+-----------+-----------+------------+------------+--------------+--------------+--------------+--------------+
+
+
+mysql> update productItems set price = 1400 where pid = 11;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from audit_proItem;
++---------+---------+------------+------------+-----------+-----------+------------+------------+--------------+--------------+--------------+--------------+
+| old_pid | new_pid | old_pname  | new_pname  | old_price | new_price | old_cat_id | new_cat_id | old_quantity | new_quantity | old_manufact | new_manufact |
++---------+---------+------------+------------+-----------+-----------+------------+------------+--------------+--------------+--------------+--------------+
+|    NULL |      11 | NULL       | MacCompact |      NULL |   1300.00 |       NULL |        150 |         NULL |            4 | NULL         | 2023-04-21   |
+|      11 |      11 | MacCompact | MacCompact |   1300.00 |   1400.00 |        150 |        150 |         NULL |            4 | 2023-04-21   | 2023-04-21   |
++---------+---------+------------+------------+-----------+-----------+------------+------------+--------------+--------------+--------------+--------------+
+2 rows in set (0.00 sec)
+
+
+Q. 1 create database and create table products & suppliers according to provided information.
+
+create table suppliers(supplierid int primary key,name varchar(20),phone int);
+
++------------+-------------+----------+
+| supplierid | name        | phone    |
++------------+-------------+----------+
+|        501 | ABC Traders | 88881111 |
+|        502 | Vikas       | 88882222 |
+|        503 | VijaySales  | 88883333 |
+|        505 | Raymond     | 88885555 |
++------------+-------------+----------+
+
+
+
+create table products(productid int primary key,productCode varchar(20),name varchar(20),puantity int, price double(9,2),manufacturing date,supplierid int,foreign key (supplierid) references suppliers(supplierid));
+
+insert into  products values(1001,'PEN','Pen Red',5000,1.23,'1995/02/02',501);
+insert into  products values(1002,'PEN','Pen Blue',8000,1.25,'2000/05/01',501);
+insert into  products values(1003,'PEN','Pen Black',2000,1.25,'1999/06/10',502);
+insert into  products values(1004,'PEC','Pencil 2B',10000,0.48,'1997/05/05',502);
+insert into  products values(1005,'PEC','Pencil 2H',8000,0.49,'1995/04/03',503);
+
++-----------+-------------+-----------+----------+-------+---------------+------------+
+| productid | productCode | name      | puantity | price | manufacturing | supplierid |
++-----------+-------------+-----------+----------+-------+---------------+------------+
+|      1001 | PEN         | Pen Red   |     5000 |  1.23 | 1995-02-02    |        501 |
+|      1002 | PEN         | Pen Blue  |     8000 |  1.25 | 2000-05-01    |        501 |
+|      1003 | PEN         | Pen Black |     2000 |  1.25 | 1999-06-10    |        502 |
+|      1004 | PEC         | Pencil 2B |    10000 |  0.48 | 1997-05-05    |        502 |
+|      1005 | PEC         | Pencil 2H |     8000 |  0.49 | 1995-04-03    |        503 |
++-----------+-------------+-----------+----------+-------+---------------+------------+
+5 rows in set (0.00 sec)
+
+1. display all the product code and product name whose supplier is not vikas.
+
+select p.productCode,p.name from products p inner join suppliers s on p.supplierid = s.supplierid
+where s.name != 'Vikas';  
+
+2.  Find max price and min Price for each supplier whose total sal is more than 10000.
+
+
+
+3. change the Name of the column manufacturing date to createdDate.
+
+alter table products rename column manufacturing to createdDate; 
+
+4. list all products whose manufactured in may 1997 puantity is >=10000 or <2500.
+
+
+select * from products where extract(month from createdDate)=5 and extract(year from createdDate) = 1997 and puantity>=10000 or puantity<2500;
+
++-----------+-------------+-----------+----------+-------+-------------+------------+
+| productid | productCode | name      | puantity | price | createdDate | supplierid |
++-----------+-------------+-----------+----------+-------+-------------+------------+
+|      1003 | PEN         | Pen Black |     2000 |  1.25 | 1999-06-10  |        502 |
+|      1004 | PEC         | Pencil 2B |    10000 |  0.48 | 1997-05-05  |        502 |
++-----------+-------------+-----------+----------+-------+-------------+------------+
+2 rows in set (0.00 sec)
+
+5. display details of product and supplier whose price is <0.6.
+
+select * from products p inner join suppliers s on p.supplierid = s.supplierid where price<0.6;
+
+mysql> select * from products p inner join suppliers s on p.supplierid = s.supplierid where price<0.6;
++-----------+-------------+-----------+----------+-------+-------------+------------+------------+------------+----------+
+| productid | productCode | name      | puantity | price | createdDate | supplierid | supplierid | name       | phone    |
++-----------+-------------+-----------+----------+-------+-------------+------------+------------+------------+----------+
+|      1004 | PEC         | Pencil 2B |    10000 |  0.48 | 1997-05-05  |        502 |        502 | Vikas      | 88882222 |
+|      1005 | PEC         | Pencil 2H |     8000 |  0.49 | 1995-04-03  |        503 |        503 | VijaySales | 88883333 |
++-----------+-------------+-----------+----------+-------+-------------+------------+------------+------------+----------+
+2 rows in set (0.00 sec)
+
+6.display productCodeWise total amount.
+select productCode ,sum(price*puantity) from products group by productCode;
+
++-------------+---------------------+
+| productCode | sum(price*puantity) |
++-------------+---------------------+
+| PEN         |            18650.00 |
+| PEC         |             8720.00 |
++-------------+---------------------+
+
+7.Display the supplier who didnt sale any product.
+
+ select s.name;
+

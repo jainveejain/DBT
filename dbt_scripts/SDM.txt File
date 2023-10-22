@@ -1,0 +1,105 @@
+
+Document: 
+
+
+System Requirement Specification Document (SRS)
+
+Client:  endors, Customer,Distributors,Shippers
+
+Team :
+Direct Customer,Indirect Customer,Buisness Analyst,
+Manager,Employees(Staff Members),CustomerCare	
+
+
+
+Objective (purpose):
+
+
+The VijaySales Store is designed to connect Customers and Distributors,Shippers,Vendors on a single platform.It will help Vendors to Connect with Their Customers Online As Well As Offline, Provide Their Services and sales of Electronic Devices and ,Gadgets,Home Appliances.Customers can Easily Know About the Product and its Specifications,Features,Description and Price.Customers can Compair Similar Products such as Price,Review,Quality and Vendors 
+
+
+
+Scope :
+
+The Customers will be able to Buy Products and find better Products and Save Their Time.The Vendors will be able to Know About The Customers Requirements, Problems And Reviews as Well.Customers Can Wishlist Required Products, Offers on that Products ,Know About New Products From VijaySales Store.Vendors Can Advertise Their Products With Offers so more Customers will Connect .Customers Can Create Account and See Their Orders ,Save Their Products to Buy Later And Can Cancel The Order Also.For Vendors and Employees They Can Analysis Their Customers and Productivity Sales will Increase. 
+
+
+Functional Requirements:
+	
+
+	Any anonymous Customer will be able to view the upcoming Offers posted by the VijaySales Team.The user can also view the details of previously orderd Products.Registered customers will be able to Take The  Benefits for an upcoming Offers.Vendors Can View the Number of Order Details of Registerd Customer.The Customer Will be able to Add Review for Particular Product and Give The FeedBack also.
+
+	Customer Can Request to Vendors if Faces Some Issue Regarding Products.Vendors Have Authority to Accept or Reject Customers Request.Customers Will be able to Update Thier Profiles.Vendors Will have Customer Care Services to Help and Resolve The Issues of The Customers.
+
+	Shipment of The products We Will Set Shipment Maintainence Seperately to handle The Products Shipment Details ,Transportation and Proper packaging Without Damage.Vendors will Manage all The Different sections Of Allproducts.
+
+	Registration of Customers will be There in the system. Registered Vendors can Sell Their Products , registered Customers can Order Their Requirements and Can Take The Benefits Of Being Registered.
+
+	Festive Sale Can be There on Online As Well As Offline Stores.Order process will be Faster due to Simple UI Will Be There .Each And Every Customer Can Connect Easily.So Vendors Will have Their Dashbords to Analyse the sales and Particular Products Demand . Customers also Will be Able to See the Comparision Dashboard of Similar Products.
+
+	Non Functional Requirements:
+
+	Security:
+
+	Only registered Customers can view event information.
+    Only the VijaySales can check the details of all customers and Vendors.
+	Each Customer will access the system through an authentication process.
+	The system will provide access to the content and operations using role-based security (authorization).
+	Stakeholders will take care of the threats facing a system in order to build defences against them.
+	For inactive stakeholders, the system will block operations and redirect to the authentication page.
+	Internally, the system will keep a secure communication channel open between servers (web servers, app servers, database servers).
+	Sensitive data will always be encrypted across communications.
+	Use a proper firewall to protect servers from outside, vulnerable attacks.
+	The access permission for system data may only be changed by System's data administrator.  
+
+	Realiablilty:
+
+	The system will backup business data on a regular basis and recover in a short time to keep the system operational. Continous updates are maintained, and continuous administration is done to keep the system operational.
+	During peak hours, the system will maintain the same user experience by managing load balancing.
+	It consistently performs the given tasks without failure.
+
+	Availablity
+
+	The information will be available to access and use all the time, with reliable access. Certainly, it must be true for those with access rights.
+
+	Maintainability
+
+Software maintenance will be done when the customer demands new features and functions in the software.
+When the system's hardware is upgraded, the software is updated as well.
+A commercial database software will be used to maintain system data persistence.
+Separate environments will be maintained for system isolation in production, testing, and development.
+
+Portability
+
+The software will be easily moved from one computing environment to another. They include portable versions of regular applications such as browsers.
+The system will provide portable user interfaces (HTML, CSS, and JS) for users to access the portal.
+The system can be deployed to single or multiple servers, any operating system, and the cloud (Azure, AWS, or GCP).
+
+Durability
+
+The system will retain information about users for a relatively longer time.
+software will allow an organisation to adjust the software to business needs that are constantly evolving, often in impulsive ways.
+
+Modularity
+
+System will be designed and developed using reusable, independent or dependent business senarios in the form of modules. These modules will be loosely coupled and highly cohesive.
+System will contain event processing, ticket booking, CRM, membership and Roles managment modules. 
+
+Efficiency
+
+On Concert Level events and Celebrity Level events, the maximum number of users will book for an event and view the event information with the same response time. The user will be able to see the event updates, like videos and songs, at the same speed.
+
+Scalability
+
+Regardless of load, the system will be able to provide a consistent user experience to stakeholders and visitors.
+The software will handle increased workloads while adding and removing users with minimal cost impact.
+The software supports growing amounts of data.
+
+Safety
+
+The system will enforce some rules by implementing access control rules in a central, server-side management library to decide who needs what access to which data and to which features.
+The system will be safe from malicious attacks.
+System functionalities are protected from the outside with proper firewall configuration.
+Business data will be backed up periodically to ensure the safety of the data using an incremental backup strategy.
+Role-based security will be applied for application data and operations accessibility.
+   

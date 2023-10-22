@@ -1,0 +1,6 @@
+ 
+ 1 to start mongodb server run command -
+ --------brew services start mongodb/brew/mongodb-community------
+
+ 2 to start mongoshell command -
+ ---------mongosh------
