@@ -1,0 +1,825 @@
+1. write a procedure to insert record into employee table.
+the procedure should accept empno, ename, sal, job, hiredate as input parameter
+write insert statement inside procedure insert_rec to add one record into table
+create procedure insert_rec(peno int,pnm varchar(20),psal decimal(9,2),pjob
+varchar(20),phiredate date)
+begin
+insert into emp(empno,ename,sal,job,hiredate)
+values(peno,pnm,psal,pjob,phiredate)
+end//
+
+mysql> delimiter //
+mysql> create procedure insert_rec(peno int, pnm varchar(20),psal double(9,2),pjob varchar(30),phiredate date)
+    -> begin
+    -> insert into emp(empno,ename,sal,job,hiredate)
+    -> values(peno,pnm,psal,pjob,phiredate);
+    -> end//
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+mysql> delimiter ;
+mysql> call insert_rec(1234,'ssss',2000,'engineer','1985-07-08');
+
+mysql> select * from emp;
++-------+--------+----------+------+------------+---------+---------+--------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO | netsal |
++-------+--------+----------+------+------------+---------+---------+--------+--------+
+|  1234 | ssss   | engineer | NULL | 1985-07-08 | 2000.00 |    NULL |   NULL |   1000 |
+|  7369 | SMITH  | sr clerk | 7902 | 1980-12-17 |  800.00 |    NULL |     20 |   1000 |
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1840.00 |  300.00 |     30 |   1000 |
+|  7521 | WARD   | SALESMAN | 7698 | 1981-02-22 | 1437.50 |  500.00 |     30 |   1000 |
+|  7566 | JONES  | MANAGER  | 7839 | 1981-04-02 | 2975.00 |    NULL |     20 |   1000 |
+|  7568 | jasmin | designer | 7698 | 1981-08-20 | 4444.00 |  500.00 |     20 |   1000 |
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1437.50 | 1400.00 |     30 |   1000 |
+|  7668 | aysha  | designer | 7798 | 1982-08-20 | 3333.00 |  400.00 |     20 |   1000 |
+|  7678 | ashi   | designer | 7788 | 1983-08-20 | 2222.00 |  300.00 |     20 |   1000 |
+|  7698 | BLAKE  | MANAGER  | 7839 | 1981-05-01 | 2850.00 |    NULL |     30 |   1000 |
+|  7782 | CLARK  | manager  | 7777 | 1981-06-09 | 2817.50 |    NULL |     10 |   1000 |
+|  7788 | SCOTT  | ANALYST  | 7566 | 1982-12-09 | 3000.00 |    NULL |     20 |   1000 |
+|  7839 | KING   | manager  | 7777 | 1981-11-17 | 5750.00 |    NULL |     10 |   1000 |
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |   1000 |
+|  7876 | ADAMS  | CLERK    | 7788 | 1983-01-12 | 1100.00 |    NULL |     20 |   1000 |
+|  7900 | JAMES  | CLERK    | 7698 | 1981-12-03 |  950.00 |    NULL |     30 |   1000 |
+|  7902 | FORD   | ANALYST  | 7566 | 1981-12-03 | 3300.00 |    NULL |     20 |   1000 |
+|  7934 | MILLER | manager  | 7777 | 1982-01-23 | 1495.00 |    NULL |     10 |   1000 |
++-------+--------+----------+------+------------+---------+---------+--------+--------+
+---------------------------------------------------------------------------------------------------------
+
+2. write a procedure to delete record from employee table.
+the procedure should accept empno as input parameter.
+write delete statement inside procedure delete_emp to delete one record from emp
+table
+
+delimiter //
+create procedure delete_emp(eno int)
+begin
+delete from emp where empno = eno;
+end//
+delimiter;
+call delete_emp(1234);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from emp
+    -> ;
++-------+--------+----------+------+------------+---------+---------+--------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO | netsal |
++-------+--------+----------+------+------------+---------+---------+--------+--------+
+|  7369 | SMITH  | sr clerk | 7902 | 1980-12-17 |  800.00 |    NULL |     20 |   1000 |
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1840.00 |  300.00 |     30 |   1000 |
+|  7521 | WARD   | SALESMAN | 7698 | 1981-02-22 | 1437.50 |  500.00 |     30 |   1000 |
+|  7566 | JONES  | MANAGER  | 7839 | 1981-04-02 | 2975.00 |    NULL |     20 |   1000 |
+|  7568 | jasmin | designer | 7698 | 1981-08-20 | 4444.00 |  500.00 |     20 |   1000 |
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1437.50 | 1400.00 |     30 |   1000 |
+|  7668 | aysha  | designer | 7798 | 1982-08-20 | 3333.00 |  400.00 |     20 |   1000 |
+|  7678 | ashi   | designer | 7788 | 1983-08-20 | 2222.00 |  300.00 |     20 |   1000 |
+|  7698 | BLAKE  | MANAGER  | 7839 | 1981-05-01 | 2850.00 |    NULL |     30 |   1000 |
+|  7782 | CLARK  | manager  | 7777 | 1981-06-09 | 2817.50 |    NULL |     10 |   1000 |
+|  7788 | SCOTT  | ANALYST  | 7566 | 1982-12-09 | 3000.00 |    NULL |     20 |   1000 |
+|  7839 | KING   | manager  | 7777 | 1981-11-17 | 5750.00 |    NULL |     10 |   1000 |
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |   1000 |
+|  7876 | ADAMS  | CLERK    | 7788 | 1983-01-12 | 1100.00 |    NULL |     20 |   1000 |
+|  7900 | JAMES  | CLERK    | 7698 | 1981-12-03 |  950.00 |    NULL |     30 |   1000 |
+|  7902 | FORD   | ANALYST  | 7566 | 1981-12-03 | 3300.00 |    NULL |     20 |   1000 |
+|  7934 | MILLER | manager  | 7777 | 1982-01-23 | 1495.00 |    NULL |     10 |   1000 |
++-------+--------+----------+------+------------+---------+---------+--------+--------+
+
+3. write a procedure to display empno,ename,deptno,dname for all employees with sal
+> given salary. pass salary as a parameter to procedure
+mysql> delimiter //
+mysql> create procedure sal_greater(esal double (9,2))
+    -> begin
+    -> select e.ename,e.empno,e.sal,d.deptno,d.dname 
+    -> from emp e inner join dept d on e.deptno = d.deptno
+    -> where sal>esal;
+    -> end//
+
+mysql> delimiter ;
+mysql> call sal_greater(1000);
++--------+-------+---------+--------+------------+
+| ename  | empno | sal     | deptno | dname      |
++--------+-------+---------+--------+------------+
+| ALLEN  |  7499 | 1840.00 |     30 | SALES      |
+| WARD   |  7521 | 1437.50 |     30 | SALES      |
+| JONES  |  7566 | 2975.00 |     20 | RESEARCH   |
+| jasmin |  7568 | 4444.00 |     20 | RESEARCH   |
+| MARTIN |  7654 | 1437.50 |     30 | SALES      |
+| aysha  |  7668 | 3333.00 |     20 | RESEARCH   |
+| ashi   |  7678 | 2222.00 |     20 | RESEARCH   |
+| BLAKE  |  7698 | 2850.00 |     30 | SALES      |
+| CLARK  |  7782 | 2817.50 |     10 | ACCOUNTING |
+| SCOTT  |  7788 | 3000.00 |     20 | RESEARCH   |
+| KING   |  7839 | 5750.00 |     10 | ACCOUNTING |
+| TURNER |  7844 | 1500.00 |     30 | SALES      |
+| ADAMS  |  7876 | 1100.00 |     20 | RESEARCH   |
+| FORD   |  7902 | 3300.00 |     20 | RESEARCH   |
+| MILLER |  7934 | 1495.00 |     10 | ACCOUNTING |
++--------+-------+---------+--------+------------+
+
+else using cursor
+
+
+
+
+--------------------------------------------------------------------------------------------------------
+
+
+4. write a procedure to find min,max,avg of salary and number of employees in the
+given deptno.
+deptno --→ in parameter
+min,max,avg and count ---→ out type parameter
+execute procedure and then display values min,max,avg and count
+
+delimiter //
+create procedure getMinMaxAvg(dno int,out fmin double(9,2),out fmax double(9,2),out favg double(9,2),out fcnt int)
+begin
+select min(sal),max(sal),avg(sal),count(*) into fmin, fmax,favg,fcnt from emp
+where deptno = dno;
+end//
+delimiter ;
+call getMinMaxAvg(10,@a,@b,@c,@d);
+Query OK, 0 rows affected, 3 warnings (0.01 sec)
+
+mysql> delimiter ;
+mysql> call getMinMaxAvg(10,@a,@b,@c,@d);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select @a,@b,@c,@d;
++------+------+---------+------+
+| @a   | @b   | @c      | @d   |
++------+------+---------+------+
+| 1495 | 5750 | 3354.17 |    3 |
++------+------+---------+------+
+
+--------------------------------------------------------------------------------------------------------
+
+5. write a procedure to display all pid,pname,cid,cname and salesman name(use
+product,category and salesman table)
+
+mysql> delimiter //
+mysql> create procedure pro_cat_sal()
+    -> begin
+    -> select p.pid,p.pname,c.cid,c.cname,s.sname from product p inner join category c on p.cid=c.cid inner join salesman s on p.sid = s.sid;
+    -> end//
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call pro_cat_sal;
++------+----------------+-----+------------+--------+
+| pid  | pname          | cid | cname      | sname  |
++------+----------------+-----+------------+--------+
+|    1 | pineaple       |   3 | fruits     | rahul  |
+|    1 | strawberry box |   3 | fruits     | rahul  |
+|    1 | pencil         |   1 | stationary | rajat  |
+|    1 | notebook       |   1 | stationary | rajat  |
+|    1 | sugar          |   2 | grocries   | ankush |
+|    1 | flour          |   2 | grocries   | ankush |
++------+----------------+-----+------------+--------+
+6 rows in set (0.01 sec)
+
+--------------------------------------------------------------------------------------------------------
+
+6. write a procedure to display all vehicles bought by a customer. pass cutomer name as
+a parameter.(use vehicle,salesman,customer and relation table)
+
+mysql> delimiter //
+mysql> create procedure veh_cust(custname varchar(20))
+    -> begin
+    -> select v.vname,c.cname from vehicle v inner join cust_vehicle cv on v.vid=cv.vid inner join customer c on cv.custid=c.custid 
+    -> where c.cname = custname;
+    -> end//
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call veh_cust('nilima');
++--------+--------+
+| vname  | cname  |
++--------+--------+
+| activa | nilima |
+| santro | nilima |
++--------+--------+
+
+--------------------------------------------------------------------------------------------------------
+7. Write a procedure that displays the following information of all emp
+Empno,Name,job,Salary,Status,deptno
+Note: - Status will be (Greater, Lesser or Equal) respective to average salary of their own
+department. Display an error message Emp table is empty if there is no matching
+record.
+
+mysql> create procedure display_status()
+    -> begin
+    -> declare vempno ,vdeptno,vmgr int;
+    -> declare vhiredate date;
+    -> declare vename,vjob,vstatus varchar(20);
+    -> declare vsal ,vavg ,vcomm ,vnetsal double(9,2);
+    -> declare vstop int default 0;
+    -> declare emp_cur cursor for select * from emp;
+    -> declare continue handler for not found set vstop =1;
+    -> open emp_cur;
+    -> label1 : loop
+    -> fetch emp_cur into vempno,vename,vjob,vmgr,vhiredate,vsal,vcomm,vdeptno,vnetsal;
+    -> if vstop = 1 then 
+    -> leave label1;
+    -> end if;
+    -> select avg(sal) into vavg
+    -> from emp
+    -> where deptno=vdeptno;
+    -> if vsal<vavg then
+    -> set vstatus ='lesser';
+    -> elseif vsal>vavg then
+    -> set vstatus ='greater';
+    -> else
+    -> set vstatus ='equal';
+    -> end if;
+    -> select vempno,vename,vjob ,vsal,vstatus,vavg;
+    -> end loop;
+    -> close emp_cur;
+    -> end//
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> delimiter ;
+mysql> call display_status;
++--------+--------+----------+--------+---------+---------+
+| vempno | vename | vjob     | vsal   | vstatus | vavg    |
++--------+--------+----------+--------+---------+---------+
+|   7369 | SMITH  | sr clerk | 800.00 | lesser  | 2733.38 |
++--------+--------+----------+--------+---------+---------+
+1 row in set (0.02 sec)
+
++--------+--------+----------+---------+---------+---------+
+| vempno | vename | vjob     | vsal    | vstatus | vavg    |
++--------+--------+----------+---------+---------+---------+
+|   7499 | ALLEN  | SALESMAN | 1840.00 | greater | 1669.17 |
++--------+--------+----------+---------+---------+---------+
+1 row in set (0.02 sec)
+
++--------+--------+----------+---------+---------+---------+
+| vempno | vename | vjob     | vsal    | vstatus | vavg    |
++--------+--------+----------+---------+---------+---------+
+|   7521 | WARD   | SALESMAN | 1437.50 | lesser  | 1669.17 |
++--------+--------+----------+---------+---------+---------+
+1 row in set (0.02 sec)
+
++--------+--------+---------+---------+---------+---------+
+| vempno | vename | vjob    | vsal    | vstatus | vavg    |
++--------+--------+---------+---------+---------+---------+
+|   7566 | JONES  | MANAGER | 2975.00 | greater | 2733.38 |
++--------+--------+---------+---------+---------+---------+
+1 row in set (0.02 sec)
+
++--------+--------+----------+---------+---------+---------+
+| vempno | vename | vjob     | vsal    | vstatus | vavg    |
++--------+--------+----------+---------+---------+---------+
+|   7568 | jasmin | designer | 4444.00 | greater | 2733.38 |
++--------+--------+----------+---------+---------+---------+
+1 row in set (0.02 sec)
+
++--------+--------+----------+---------+---------+---------+
+| vempno | vename | vjob     | vsal    | vstatus | vavg    |
++--------+--------+----------+---------+---------+---------+
+|   7654 | MARTIN | SALESMAN | 1437.50 | lesser  | 1669.17 |
++--------+--------+----------+---------+---------+---------+
+1 row in set (0.02 sec)
+
++--------+--------+----------+---------+---------+---------+
+| vempno | vename | vjob     | vsal    | vstatus | vavg    |
++--------+--------+----------+---------+---------+---------+
+|   7668 | aysha  | designer | 3333.00 | greater | 2733.38 |
++--------+--------+----------+---------+---------+---------+
+1 row in set (0.02 sec)
+
++--------+--------+----------+---------+---------+---------+
+| vempno | vename | vjob     | vsal    | vstatus | vavg    |
++--------+--------+----------+---------+---------+---------+
+|   7678 | ashi   | designer | 2222.00 | lesser  | 2733.38 |
++--------+--------+----------+---------+---------+---------+
+1 row in set (0.02 sec)
+
++--------+--------+---------+---------+---------+---------+
+| vempno | vename | vjob    | vsal    | vstatus | vavg    |
++--------+--------+---------+---------+---------+---------+
+|   7698 | BLAKE  | MANAGER | 2850.00 | greater | 1669.17 |
++--------+--------+---------+---------+---------+---------+
+1 row in set (0.02 sec)
+
++--------+--------+---------+---------+---------+---------+
+| vempno | vename | vjob    | vsal    | vstatus | vavg    |
++--------+--------+---------+---------+---------+---------+
+|   7782 | CLARK  | manager | 2817.50 | lesser  | 3354.17 |
++--------+--------+---------+---------+---------+---------+
+1 row in set (0.02 sec)
+
++--------+--------+---------+---------+---------+---------+
+| vempno | vename | vjob    | vsal    | vstatus | vavg    |
++--------+--------+---------+---------+---------+---------+
+|   7788 | SCOTT  | ANALYST | 3000.00 | greater | 2733.38 |
++--------+--------+---------+---------+---------+---------+
+1 row in set (0.02 sec)
+
++--------+--------+---------+---------+---------+---------+
+| vempno | vename | vjob    | vsal    | vstatus | vavg    |
++--------+--------+---------+---------+---------+---------+
+|   7839 | KING   | manager | 5750.00 | greater | 3354.17 |
++--------+--------+---------+---------+---------+---------+
+1 row in set (0.02 sec)
+
++--------+--------+----------+---------+---------+---------+
+| vempno | vename | vjob     | vsal    | vstatus | vavg    |
++--------+--------+----------+---------+---------+---------+
+|   7844 | TURNER | SALESMAN | 1500.00 | lesser  | 1669.17 |
++--------+--------+----------+---------+---------+---------+
+1 row in set (0.02 sec)
+
++--------+--------+-------+---------+---------+---------+
+| vempno | vename | vjob  | vsal    | vstatus | vavg    |
++--------+--------+-------+---------+---------+---------+
+|   7876 | ADAMS  | CLERK | 1100.00 | lesser  | 2733.38 |
++--------+--------+-------+---------+---------+---------+
+1 row in set (0.02 sec)
+
++--------+--------+-------+--------+---------+---------+
+| vempno | vename | vjob  | vsal   | vstatus | vavg    |
++--------+--------+-------+--------+---------+---------+
+|   7900 | JAMES  | CLERK | 950.00 | lesser  | 1669.17 |
++--------+--------+-------+--------+---------+---------+
+1 row in set (0.02 sec)
+
++--------+--------+---------+---------+---------+---------+
+| vempno | vename | vjob    | vsal    | vstatus | vavg    |
++--------+--------+---------+---------+---------+---------+
+|   7902 | FORD   | ANALYST | 3993.00 | greater | 2733.38 |
++--------+--------+---------+---------+---------+---------+
+1 row in set (0.02 sec)
+
++--------+--------+---------+---------+---------+---------+
+| vempno | vename | vjob    | vsal    | vstatus | vavg    |
++--------+--------+---------+---------+---------+---------+
+|   7934 | MILLER | manager | 1495.00 | lesser  | 3354.17 |
++--------+--------+---------+---------+---------+---------+
+1 row in set (0.02 sec)
+
+Query OK, 0 rows affected (0.02 sec)
+
+--------------------------------------------------------------------------------------------------------
+8. Write a procedure to update salary in emp table based on following rules.
+Exp< =35 then no Update
+Exp> 35 and <=38 then 20% of salary
+Exp> 38 then 25% of salary
+
+mysql> SET GLOBAL log_bin_trust_function_creators = 1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter //
+mysql> create function calcexp( hdt date) returns int
+    -> begin
+    -> return floor(datediff(curdate(),hdt)/365);
+    -> end//
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql> select empno,ename,hiredate,calcexp(hiredate) from emp;
++-------+--------+------------+-------------------+
+| empno | ename  | hiredate   | calcexp(hiredate) |
++-------+--------+------------+-------------------+
+|  7369 | SMITH  | 1980-12-17 |                42 |
+|  7499 | ALLEN  | 1981-02-20 |                42 |
+|  7521 | WARD   | 1981-02-22 |                42 |
+|  7566 | JONES  | 1981-04-02 |                42 |
+|  7568 | jasmin | 1981-08-20 |                42 |
+|  7654 | MARTIN | 1981-09-28 |                42 |
+|  7668 | aysha  | 1982-08-20 |                41 |
+|  7678 | ashi   | 1983-08-20 |                40 |
+|  7698 | BLAKE  | 1981-05-01 |                42 |
+|  7782 | CLARK  | 1981-06-09 |                42 |
+|  7788 | SCOTT  | 1982-12-09 |                40 |
+|  7839 | KING   | 1981-11-17 |                41 |
+|  7844 | TURNER | 1981-09-08 |                42 |
+|  7876 | ADAMS  | 1983-01-12 |                40 |
+|  7900 | JAMES  | 1981-12-03 |                41 |
+|  7902 | FORD   | 1981-12-03 |                41 |
+|  7934 | MILLER | 1982-01-23 |                41 |
++-------+--------+------------+-------------------+
+mysql> delimiter //
+mysql> create procedure change_sal_exp()
+    -> begin
+    -> declare vempno int;
+    -> declare vsal double(9,2);
+    -> declare vhiredate date;
+    -> declare vexp int ;
+    -> declare vstop int default 0;
+    -> declare emp_cur cursor for select empno,sal,hiredate from emp;
+    -> declare continue handler for not found set vstop =1;
+    -> 
+    -> open emp_cur;
+    -> label1 : loop
+    -> fetch emp_cur into vempno,vsal,vhiredate;
+    -> if vstop = 1 then leave label1;
+    -> end if;
+    -> set vexp = calcexp(vhiredate);
+    -> if vexp>35 and vexp<=38 then
+    -> set vsal = 1.20*vsal;
+    -> update emp set sal = vsal where empno = vempno ;
+    -> elseif vexp>38 then 
+    -> set vsal = 1.25*vsal;
+    -> update emp set sal = vsal where empno = vempno ;
+    -> end if ;
+    -> end loop;
+    -> close emp_cur;
+    -> select * from emp;
+    -> end//
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> delimiter ;
+mysql> 
+mysql> select * from emp ;
++-------+--------+----------+------+------------+---------+---------+--------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO | netsal |
++-------+--------+----------+------+------------+---------+---------+--------+--------+
+|  7369 | SMITH  | sr clerk | 7902 | 1980-12-17 |  800.00 |    NULL |     20 |   1000 |
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 1840.00 |  300.00 |     30 |   1000 |
+|  7521 | WARD   | SALESMAN | 7698 | 1981-02-22 | 1437.50 |  500.00 |     30 |   1000 |
+|  7566 | JONES  | MANAGER  | 7839 | 1981-04-02 | 2975.00 |    NULL |     20 |   1000 |
+|  7568 | jasmin | designer | 7698 | 1981-08-20 | 4444.00 |  500.00 |     20 |   1000 |
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1437.50 | 1400.00 |     30 |   1000 |
+|  7668 | aysha  | designer | 7798 | 1982-08-20 | 3333.00 |  400.00 |     20 |   1000 |
+|  7678 | ashi   | designer | 7788 | 1983-08-20 | 2222.00 |  300.00 |     20 |   1000 |
+|  7698 | BLAKE  | MANAGER  | 7839 | 1981-05-01 | 2850.00 |    NULL |     30 |   1000 |
+|  7782 | CLARK  | manager  | 7777 | 1981-06-09 | 2817.50 |    NULL |     10 |   1000 |
+|  7788 | SCOTT  | ANALYST  | 7566 | 1982-12-09 | 3000.00 |    NULL |     20 |   1000 |
+|  7839 | KING   | manager  | 7777 | 1981-11-17 | 5750.00 |    NULL |     10 |   1000 |
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1500.00 |    0.00 |     30 |   1000 |
+|  7876 | ADAMS  | CLERK    | 7788 | 1983-01-12 | 1100.00 |    NULL |     20 |   1000 |
+|  7900 | JAMES  | CLERK    | 7698 | 1981-12-03 |  950.00 |    NULL |     30 |   1000 |
+|  7902 | FORD   | ANALYST  | 7566 | 1981-12-03 | 3993.00 |    NULL |     20 |   1000 |
+|  7934 | MILLER | manager  | 7777 | 1982-01-23 | 1495.00 |    NULL |     10 |   1000 |
++-------+--------+----------+------+------------+---------+---------+--------+--------+
+17 rows in set (0.00 sec)
+
+mysql> call change_sal_exp;
++-------+--------+----------+------+------------+---------+---------+--------+--------+
+| EMPNO | ENAME  | JOB      | MGR  | HIREDATE   | SAL     | COMM    | DEPTNO | netsal |
++-------+--------+----------+------+------------+---------+---------+--------+--------+
+|  7369 | SMITH  | sr clerk | 7902 | 1980-12-17 | 1000.00 |    NULL |     20 |   1000 |
+|  7499 | ALLEN  | SALESMAN | 7698 | 1981-02-20 | 2300.00 |  300.00 |     30 |   1000 |
+|  7521 | WARD   | SALESMAN | 7698 | 1981-02-22 | 1796.88 |  500.00 |     30 |   1000 |
+|  7566 | JONES  | MANAGER  | 7839 | 1981-04-02 | 3718.75 |    NULL |     20 |   1000 |
+|  7568 | jasmin | designer | 7698 | 1981-08-20 | 5555.00 |  500.00 |     20 |   1000 |
+|  7654 | MARTIN | SALESMAN | 7698 | 1981-09-28 | 1796.88 | 1400.00 |     30 |   1000 |
+|  7668 | aysha  | designer | 7798 | 1982-08-20 | 4166.25 |  400.00 |     20 |   1000 |
+|  7678 | ashi   | designer | 7788 | 1983-08-20 | 2777.50 |  300.00 |     20 |   1000 |
+|  7698 | BLAKE  | MANAGER  | 7839 | 1981-05-01 | 3562.50 |    NULL |     30 |   1000 |
+|  7782 | CLARK  | manager  | 7777 | 1981-06-09 | 3521.88 |    NULL |     10 |   1000 |
+|  7788 | SCOTT  | ANALYST  | 7566 | 1982-12-09 | 3750.00 |    NULL |     20 |   1000 |
+|  7839 | KING   | manager  | 7777 | 1981-11-17 | 7187.50 |    NULL |     10 |   1000 |
+|  7844 | TURNER | SALESMAN | 7698 | 1981-09-08 | 1875.00 |    0.00 |     30 |   1000 |
+|  7876 | ADAMS  | CLERK    | 7788 | 1983-01-12 | 1375.00 |    NULL |     20 |   1000 |
+|  7900 | JAMES  | CLERK    | 7698 | 1981-12-03 | 1187.50 |    NULL |     30 |   1000 |
+|  7902 | FORD   | ANALYST  | 7566 | 1981-12-03 | 4991.25 |    NULL |     20 |   1000 |
+|  7934 | MILLER | manager  | 7777 | 1982-01-23 | 1868.75 |    NULL |     10 |   1000 |
++-------+--------+----------+------+------------+---------+---------+--------+--------+
+17 rows in set (0.05 sec)
+
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> 
+
+--------------------------------------------------------------------------------------------------------
+9. Write a procedure and a function.
+Function: write a function to calculate number of years of experience of employee.(note:
+pass hiredate as a parameter)
+
+Procedure: Capture the value returned by the above function to calculate the additional
+allowance for the emp based on the experience.
+
+Additional Allowance = Year of experience x 3000
+Calculate the additional allowance
+and store Empno, ename,Date of Joining, and Experience in
+years and additional allowance in Emp_Allowance table.
+
+create table emp_allowance(
+empno int,
+ename varchar(20),
+hiredate date,
+experience int,
+allowance decimal(9,2));
+
+
+mysql> SET GLOBAL log_bin_trust_function_creators = 1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter //
+mysql> create function calcexp( hdt date) returns int
+    -> begin
+    -> return floor(datediff(curdate(),hdt)/365);
+    -> end//
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql> select empno,ename,hiredate,calcexp(hiredate) from emp;
++-------+--------+------------+-------------------+
+| empno | ename  | hiredate   | calcexp(hiredate) |
++-------+--------+------------+-------------------+
+|  7369 | SMITH  | 1980-12-17 |                42 |
+|  7499 | ALLEN  | 1981-02-20 |                42 |
+|  7521 | WARD   | 1981-02-22 |                42 |
+|  7566 | JONES  | 1981-04-02 |                42 |
+|  7568 | jasmin | 1981-08-20 |                42 |
+|  7654 | MARTIN | 1981-09-28 |                42 |
+|  7668 | aysha  | 1982-08-20 |                41 |
+|  7678 | ashi   | 1983-08-20 |                40 |
+|  7698 | BLAKE  | 1981-05-01 |                42 |
+|  7782 | CLARK  | 1981-06-09 |                42 |
+|  7788 | SCOTT  | 1982-12-09 |                40 |
+|  7839 | KING   | 1981-11-17 |                41 |
+|  7844 | TURNER | 1981-09-08 |                42 |
+|  7876 | ADAMS  | 1983-01-12 |                40 |
+|  7900 | JAMES  | 1981-12-03 |                41 |
+|  7902 | FORD   | 1981-12-03 |                41 |
+|  7934 | MILLER | 1982-01-23 |                41 |
++-------+--------+------------+-------------------+
+
+
+mysql> create table emp_allowance(
+    -> empno int, ename varchar(20)
+    -> ,hiredate date ,experience int,allowance decimal(9,2));
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> desc emp_allowance;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| empno      | int          | YES  |     | NULL    |       |
+| ename      | varchar(20)  | YES  |     | NULL    |       |
+| hiredate   | date         | YES  |     | NULL    |       |
+| experience | int          | YES  |     | NULL    |       |
+| allowance  | decimal(9,2) | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+
+mysql> delimiter //
+mysql> create procedure special_allow()
+    -> begin
+    -> declare vempno int;
+    -> declare vename varchar (20);
+    -> declare vjoining_date date;
+    -> declare vspe_allow double(9,2);
+    -> declare vexp int ;
+    -> declare vstop int default 0;
+    -> declare emp_cur cursor for select empno,ename,hiredate from emp;
+    -> declare continue handler for not found set vstop =1;
+    -> open emp_cur;
+    -> label1 : loop
+    -> fetch emp_cur into vempno,vename,vjoining_date ;
+    -> if vstop =1 then leave label1;
+    -> end if;
+    -> set vexp = calcexp(vjoining_date);
+    -> set vspe_allow = vexp*3000;
+    -> insert into emp_allowance values(vempno,vename,vjoining_date,vexp,vspe_allow); 
+    -> end loop;
+    -> close emp_cur;
+    -> end//
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> delimiter ;
+mysql> call special_allow;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> select * from emp_allowance;
++-------+--------+------------+------------+-----------+
+| empno | ename  | hiredate   | experience | allowance |
++-------+--------+------------+------------+-----------+
+|  7369 | SMITH  | 1980-12-17 |         42 | 126000.00 |
+|  7499 | ALLEN  | 1981-02-20 |         42 | 126000.00 |
+|  7521 | WARD   | 1981-02-22 |         42 | 126000.00 |
+|  7566 | JONES  | 1981-04-02 |         42 | 126000.00 |
+|  7568 | jasmin | 1981-08-20 |         42 | 126000.00 |
+|  7654 | MARTIN | 1981-09-28 |         42 | 126000.00 |
+|  7668 | aysha  | 1982-08-20 |         41 | 123000.00 |
+|  7678 | ashi   | 1983-08-20 |         40 | 120000.00 |
+|  7698 | BLAKE  | 1981-05-01 |         42 | 126000.00 |
+|  7782 | CLARK  | 1981-06-09 |         42 | 126000.00 |
+|  7788 | SCOTT  | 1982-12-09 |         40 | 120000.00 |
+|  7839 | KING   | 1981-11-17 |         41 | 123000.00 |
+|  7844 | TURNER | 1981-09-08 |         42 | 126000.00 |
+|  7876 | ADAMS  | 1983-01-12 |         40 | 120000.00 |
+|  7900 | JAMES  | 1981-12-03 |         41 | 123000.00 |
+|  7902 | FORD   | 1981-12-03 |         41 | 123000.00 |
+|  7934 | MILLER | 1982-01-23 |         41 | 123000.00 |
++-------+--------+------------+------------+-----------+
+
+
+--------------------------------------------------------------------------------------------------------
+
+10. Write a function to compute the following. Function should take sal and hiredate
+as i/p and return the cost to company.
+DA = 15% Salary, HRA= 20% of Salary, TA= 8% of Salary.
+Special Allowance will be decided based on the service in the company.
+< 1 Year Nil
+>=1 Year< 2 Year 10% of Salary
+>=2 Year< 4 Year 20% of Salary
+>4 Year 30% of Salary
+
+mysql> create function cost_to_company(salary double(9,2),hdt date) returns double
+    -> begin
+    -> declare vsp_allowance double(9,2);
+    -> declare vexp int;
+    -> set vexp = calcexp(hdt);
+    -> if vexp>36 and vexp<40 then
+    -> set vsp_allowance = salary*0.10;
+    -> elseif vexp>=40 and vexp<42 then
+    -> set vsp_allowance = salary *0.20;
+    -> elseif vexp>42 then 
+    -> set vsp_allowance = salary*0.30;
+    -> end if;
+    -> return salary+vsp_allowance+0.15*salary+0.20*salary+0.08*salary;
+    -> end//
+Query OK, 0 rows affected, 2 warnings (0.01 sec)
+
+mysql> delimiter ;
+mysql> select cost_to_company(sal,hiredate);
+ERROR 1054 (42S22): Unknown column 'sal' in 'field list'
+mysql> select cost_to_company(sal,hiredate) from emp;
++-------------------------------+
+| cost_to_company(sal,hiredate) |
++-------------------------------+
+|                          NULL |
+|                          NULL |
+|                          NULL |
+|                          NULL |
+|                          NULL |
+|                          NULL |
+|                     6790.9875 |
+|                      4527.325 |
+|                          NULL |
+|                          NULL |
+|                        6112.5 |
+|                     11715.625 |
+|                          NULL |
+|                       2241.25 |
+|                      1935.625 |
+|                     8135.7375 |
+|                     3046.0625 |
++-------------------------------+
+17 rows in set (0.00 sec)
+
+mysql> select cost_to_company(sal,hiredate),empno,ename from emp;
++-------------------------------+-------+--------+
+| cost_to_company(sal,hiredate) | empno | ename  |
++-------------------------------+-------+--------+
+|                          NULL |  7369 | SMITH  |
+|                          NULL |  7499 | ALLEN  |
+|                          NULL |  7521 | WARD   |
+|                          NULL |  7566 | JONES  |
+|                          NULL |  7568 | jasmin |
+|                          NULL |  7654 | MARTIN |
+|                     6790.9875 |  7668 | aysha  |
+|                      4527.325 |  7678 | ashi   |
+|                          NULL |  7698 | BLAKE  |
+|                          NULL |  7782 | CLARK  |
+|                        6112.5 |  7788 | SCOTT  |
+|                     11715.625 |  7839 | KING   |
+|                          NULL |  7844 | TURNER |
+|                       2241.25 |  7876 | ADAMS  |
+|                      1935.625 |  7900 | JAMES  |
+|                     8135.7375 |  7902 | FORD   |
+|                     3046.0625 |  7934 | MILLER |
++-------------------------------+-------+--------+
+
+--------------------------------------------------------------------------------------------------------
+
+11. Write query to display empno,ename,sal,cost to company for all employees(note:
+use function written in question 10)
+
+
+
+select empno,ename,sal,cost_to_company(sal,hiredate) from emp ;
+ 
+ +-------+--------+---------+-------------------------------+
+| empno | ename  | sal     | cost_to_company(sal,hiredate) |
++-------+--------+---------+-------------------------------+
+|  7369 | SMITH  | 1000.00 |                          NULL |
+|  7499 | ALLEN  | 2300.00 |                          NULL |
+|  7521 | WARD   | 1796.88 |                          NULL |
+|  7566 | JONES  | 3718.75 |                          NULL |
+|  7568 | jasmin | 5555.00 |                          NULL |
+|  7654 | MARTIN | 1796.88 |                          NULL |
+|  7668 | aysha  | 4166.25 |                     6790.9875 |
+|  7678 | ashi   | 2777.50 |                      4527.325 |
+|  7698 | BLAKE  | 3562.50 |                          NULL |
+|  7782 | CLARK  | 3521.88 |                          NULL |
+|  7788 | SCOTT  | 3750.00 |                        6112.5 |
+|  7839 | KING   | 7187.50 |                     11715.625 |
+|  7844 | TURNER | 1875.00 |                          NULL |
+|  7876 | ADAMS  | 1375.00 |                       2241.25 |
+|  7900 | JAMES  | 1187.50 |                      1935.625 |
+|  7902 | FORD   | 4991.25 |                     8135.7375 |
+|  7934 | MILLER | 1868.75 |                     3046.0625 |
++-------+--------+---------+-------------------------------+
+17 rows in set (0.15 sec)
+--------------------------------------------------------------------------------------------------------
+
+Q12. Write trigger
+1. Write a tigger to store the old salary details in Emp _Back (Emp _Back has the
+same structure as emp table without any
+constraint) table.
+(note :create emp_back table before writing trigger)
+----- to create emp_back table
+create table emp_back(
+empno int,
+ename varchar(20),
+oldsal decimal(9,2),
+newsal decimal(9,2)
+)
+(note :
+execute procedure written in Q8 and
+check the entries in EMP_back table after execution of the procedure)
+
+
+
+create table emp_back(empno int,ename varchar(20),oldsal decimal(9,2),newsal decimal(9,2));
+
+delimiter //
+create trigger emp_back_update after update on emp
+
+for each row
+begin
+insert into emp_back values(old.empno,old.ename,old.sal,new.sal);
+end//
+delimiter ;
+
+call change_sal_exp;
+
+--------------------------------------------------------------------------------------------------------
+2. Write a trigger which add entry in audit table when user tries to insert or delete
+records in employee table store empno,name,username and date on which
+operation performed and which action is done insert or delete. in emp_audit table.
+create table before writing trigger.
+create table empaudit(
+empno int;
+ename varchar(20),
+username varchar(20);
+chdate date;
+action varchar(20)
+);
+
+
+create table emp_audit(empno int,ename varchar(20),username varchar(20),chdate date,action varchar(20));
+
+delimiter //
+create procedure change_sal_exp()
+     begin
+     declare vempno int;
+     declare vsal double(9,2);
+     declare vhiredate date;
+     declare vexp int ;
+     declare vstop int default 0;
+     declare emp_cur cursor for select empno,sal,hiredate from emp;
+     declare continue handler for not found set vstop =1;
+     
+     open emp_cur;
+     label1 : loop
+     fetch emp_cur into vempno,vsal,vhiredate;
+     if vstop = 1 then leave label1;
+     end if;
+     set vexp = calcexp(vhiredate);
+     if vexp>35 and vexp<=38 then
+     set vsal = 1.20*vsal;
+     update emp set sal = vsal where empno = vempno ;
+     elseif vexp>38 then 
+     set vsal = 1.25*vsal;
+     update emp set sal = vsal where empno = vempno ;
+     end if ;
+     end loop;
+     close emp_cur;
+     select vempno,vsal from emp;
+     end//
+
+     delimiter;
+
+
+delimiter //
+create trigger emp_audit_trig before update on emp
+for each row
+begin
+insert into emp_audit values(new.empno,new.ename,user(),curdate(),'insert');
+end//
+delimiter ;
+
+select * from emp_audit;
+
+--------------------------------------------------------------------------------------------------------
+3. Create table vehicle_history. Write a trigger to store old vehicleprice and new vehicle
+price in history table before you update price in vehicle table
+(note: use vehicle table).
+create table vehicle_history(
+vno int,
+vname varchar(20),
+oldprice decimal(9,2),
+newprice decimal(9,2),
+chdate date,
+username varchar(20)
+
+create table vehicle_history(vno int,vname varchar(20),oldprice decimal(9,2),newprice decimal(9,2),chdate date,username varchar(20));
+
+create trigger vehicle_history_update before update on vehicle for each row
+begin
+insert into vehicle_history_update values(old.empno,old.ename,old.price,new.price,now(),user());
+end//
+delimiter ;
+--------------------------------------------------------------------------------------------------------
